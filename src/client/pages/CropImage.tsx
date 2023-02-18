@@ -90,31 +90,37 @@ const CropImage = () => {
           onChange={handleFileChange}
         />
       </div>
-      {originalImage ? (
-        <div>
-          <p className="text-muted">Original image:</p>
-          <p>
-            {originalImage.width}x{originalImage.height}
-          </p>
-          <div>
-            <img className="w-50" src={originalImage.src} alt="Cropped Image" />
+      {originalImage && croppedImage ? (
+        <div className="d-flex gap-4">
+          <div className="w-25">
+            <p className="text-muted">Original image:</p>
+            <p>
+              {originalImage.width}x{originalImage.height}
+            </p>
+            <div>
+              <img
+                className="w-100"
+                src={originalImage.src}
+                alt="Cropped Image"
+              />
+            </div>
           </div>
-        </div>
-      ) : (
-        ''
-      )}
-      {croppedImage ? (
-        <div>
-          <p className="text-muted">Cropped image:</p>
-          <p>
-            {croppedImage.width}x{croppedImage.height}
-          </p>
-          <div className="d-flex align-items-start gap-4">
-            <img className="w-50" src={croppedImage.src} alt="Cropped Image" />
-            <CropImageForm
-              values={cropImageFormValues}
-              onSubmit={(values) => onSubmitCropImageForm(values)}
-            />
+          <div className="w-75">
+            <p className="text-muted">Cropped image:</p>
+            <p>
+              {croppedImage.width}x{croppedImage.height}
+            </p>
+            <div className="d-flex align-items-start gap-4">
+              <img
+                className="w-75"
+                src={croppedImage.src}
+                alt="Cropped Image"
+              />
+              <CropImageForm
+                values={cropImageFormValues}
+                onSubmit={(values) => onSubmitCropImageForm(values)}
+              />
+            </div>
           </div>
         </div>
       ) : (

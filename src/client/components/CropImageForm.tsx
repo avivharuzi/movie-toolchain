@@ -35,6 +35,7 @@ const CropImageForm = ({ values, onSubmit }: CropImageFormProps) => {
           className="form-control"
           placeholder={placeholder}
           defaultValue={0}
+          min={0}
           {...register(name, { required: true, min: 0, valueAsNumber: true })}
         />
       </>
