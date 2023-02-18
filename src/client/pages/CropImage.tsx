@@ -1,9 +1,10 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import CropImageForm, {
   CropImageFormValues,
   getCropImageFormDefaultValues,
 } from '../components/CropImageForm';
+import ImageWithZoom from '../components/ImageWithZoom';
 import { fromFileToDataURL, getImageResolution } from '../utils';
 
 interface ImageProperties {
@@ -106,11 +107,7 @@ const CropImage = () => {
               {originalImage.width}x{originalImage.height}
             </p>
             <div>
-              <img
-                className="w-100"
-                src={originalImage.src}
-                alt="Cropped Image"
-              />
+              <ImageWithZoom src={originalImage.src} alt="Original Image" />
             </div>
           </div>
           <div className="w-75">
@@ -119,11 +116,24 @@ const CropImage = () => {
               {croppedImage.width}x{croppedImage.height}
             </p>
             <div className="d-flex align-items-start gap-4">
-              <img
-                className="w-75"
-                src={croppedImage.src}
-                alt="Cropped Image"
-              />
+              <div className="d-flex flex-column gap-3">
+                <ImageWithZoom
+                  src={croppedImage.src}
+                  initialPositionY={0}
+                  initialScale={32}
+                  alt="Cropped Image Top"
+                />
+                <ImageWithZoom
+                  src={croppedImage.src}
+                  initialPositionY={-croppedImage.height * 32}
+                  initialScale={32}
+                  alt="Cropped Image Bottom"
+                />
+                <ImageWithZoom
+                  src={croppedImage.src}
+                  alt="Cropped Image Center"
+                />
+              </div>
               <CropImageForm
                 values={cropImageFormValues}
                 onSubmit={(values) => onSubmitCropImageForm(values)}
