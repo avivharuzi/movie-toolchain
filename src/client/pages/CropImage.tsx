@@ -31,6 +31,8 @@ const CropImage = () => {
       return;
     }
 
+    resetAll();
+
     await updateOriginalImage(file);
   };
 
@@ -74,6 +76,12 @@ const CropImage = () => {
     values: CropImageFormValues
   ): Promise<void> => {
     setCropImageFormValues(values);
+  };
+
+  const resetAll = () => {
+    setOriginalImage(null);
+    setCroppedImage(null);
+    setCropImageFormValues(getCropImageFormDefaultValues());
   };
 
   return (
