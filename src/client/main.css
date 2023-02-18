@@ -1,0 +1,43 @@
+.main {
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+}
+
+.select-image figure {
+  cursor: pointer;
+}
+
+.select-image figure img {
+  border: 3px solid transparent;
+}
+
+.select-image .is-active img,
+.select-image figure:hover img {
+  border: 3px solid var(--bs-primary);
+}
+
+.select-subtitle tbody tr:hover {
+  cursor: pointer;
+}
+
+.select-subtitle tbody .is-active {
+  color: var(--bs-light);
+  background-color: var(--bs-primary);
+}
+
+.select-subtitle tbody .is-active:hover td {
+  color: var(--bs-light);
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 8px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
