@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 
 import {
+  cropImageBase64,
   downloadSubtitle,
   getMovieDetails,
   saveMoviePrepareFiles,
@@ -44,6 +45,10 @@ const createWindow = async (): Promise<void> => {
     'saveMoviePrepareFiles',
     (event, options: SaveMoviePrepareFilesOptions) =>
       saveMoviePrepareFiles(options)
+  );
+
+  ipcMain.handle('cropImageBase64', (event, options: CropImageBase64Options) =>
+    cropImageBase64(options)
   );
 
   // and load the index.html of the app.

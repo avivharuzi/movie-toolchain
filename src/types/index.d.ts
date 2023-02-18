@@ -7,6 +7,7 @@ interface ElectronAPI {
   saveMoviePrepareFiles: (
     options: SaveMoviePrepareFilesOptions
   ) => Promise<void>;
+  cropImageBase64: (options: CropImageBase64Options) => Promise<string>;
 }
 
 declare global {
@@ -62,5 +63,13 @@ declare global {
     ktuvitID: string;
     subtitleID: string;
     outputPath: string;
+  }
+
+  interface CropImageBase64Options {
+    image: string | Buffer;
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
   }
 }
