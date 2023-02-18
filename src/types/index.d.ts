@@ -65,6 +65,11 @@ declare global {
     outputPath: string;
   }
 
+  interface ImageResolution {
+    width: number;
+    height: number;
+  }
+
   interface CropImageBase64Options {
     image: string | Buffer;
     top: number;
