@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 
 import IconWithText from '../components/IconWithText';
+import Loader from '../components/Loader';
 import MovieDetailsStat from '../components/MovieDetailsStat';
 import SelectImage from '../components/SelectImage';
 import SelectSubtitle from '../components/SelectSubtitle';
@@ -21,6 +22,7 @@ const getDefaultFormValue = (): PrepareToMKVToolNixForm => {
 };
 
 const PrepareToMKVToolNix = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [searchValue, setSearchValue] = useState('');
   const [formValue, setFormValue] = useState<PrepareToMKVToolNixForm>(
@@ -32,11 +34,15 @@ const PrepareToMKVToolNix = () => {
       return;
     }
 
+    setIsLoading(true);
+
     setFormValue(getDefaultFormValue());
 
     const movieDetails = await window.electronAPI.getMovieDetails(searchValue);
 
     setMovie(movieDetails);
+
+    setIsLoading(false);
   };
 
   const handleFormValueChange = (
@@ -57,12 +63,16 @@ const PrepareToMKVToolNix = () => {
       return;
     }
 
+    setIsLoading(true);
+
     await window.electronAPI.downloadSubtitle({
       ktuvitID: movie.ktuvitID,
       subtitleID: subtitle.id,
       outputPath: directory,
       fileName: subtitle.fileName,
     });
+
+    setIsLoading(false);
   };
 
   const handleBrowse = async (): Promise<void> => {
@@ -76,6 +86,8 @@ const PrepareToMKVToolNix = () => {
       return;
     }
 
+    setIsLoading(true);
+
     const { selectedPoster, selectedBackdrop, selectedSubtitle } = formValue;
 
     await window.electronAPI.saveMoviePrepareFiles({
@@ -85,6 +97,8 @@ const PrepareToMKVToolNix = () => {
       backdropImage: selectedBackdrop.src.original,
       outputPath: directory,
     });
+
+    setIsLoading(false);
   };
 
   const movieTitle = movie
@@ -109,6 +123,8 @@ const PrepareToMKVToolNix = () => {
 
   return (
     <div className="d-flex flex-column gap-4">
+      <Loader isLoading={isLoading} />
+
       <div className="d-flex gap-2">
         <input
           onInput={(event) =>
