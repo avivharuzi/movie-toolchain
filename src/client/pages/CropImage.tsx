@@ -1,7 +1,9 @@
 import { ChangeEvent } from 'react';
 
+import { fromFileToDataURL } from '../utils';
+
 const CropImage = () => {
-  const handleFileChange = (event: ChangeEvent) => {
+  const handleFileChange = async (event: ChangeEvent): Promise<void> => {
     const target = event.target as HTMLInputElement;
     const file = target.files && target.files[0];
 
@@ -9,12 +11,16 @@ const CropImage = () => {
       return;
     }
 
-    console.log('file', file);
+    await updateImage(file);
+  };
+
+  const updateImage = async (file: File): Promise<void> => {
+    const imageDataURL = await fromFileToDataURL(file);
   };
 
   return (
-    <div>
-      <div className="mb-3">
+    <div className="d-flex flex-column gap-4">
+      <div>
         <label htmlFor="selectImage" className="form-label">
           Select image:
         </label>
@@ -26,6 +32,8 @@ const CropImage = () => {
           onChange={handleFileChange}
         />
       </div>
+      <div>Original image:</div>
+      <div>Cropped image:</div>
     </div>
   );
 };
