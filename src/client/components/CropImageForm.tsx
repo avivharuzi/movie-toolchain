@@ -12,7 +12,7 @@ export interface CropImageFormProps {
   onSubmit?: (values: CropImageFormValues) => void;
 }
 
-const getCropImageFormDefaultValues = (): CropImageFormValues => {
+export const getCropImageFormDefaultValues = (): CropImageFormValues => {
   return {
     top: 0,
     right: 0,
