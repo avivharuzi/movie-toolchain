@@ -106,7 +106,7 @@ const PrepareToMKVToolNix = () => {
     : '';
 
   const movieFileName = movie
-    ? `${movie.title.replace(/\s/g, '.')}.${format(
+    ? `${movie.title.replace(/\s/g, '.').replace(/:/g, '')}.${format(
         new Date(movie.releaseDate),
         'yyyy'
       )}.1080p.BluRay.x264`
@@ -151,7 +151,6 @@ const PrepareToMKVToolNix = () => {
           <div>
             <p className="text-muted">Select poster image:</p>
             <p></p>
-            {}
             <SelectImage
               images={movie.posters}
               selectedImage={formValue.selectedPoster}
