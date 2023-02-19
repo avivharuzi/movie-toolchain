@@ -9,13 +9,22 @@ import { mainConfig } from './webpack.main.config';
 import { rendererConfig } from './webpack.renderer.config';
 
 const config: ForgeConfig = {
-  packagerConfig: {},
+  packagerConfig: {
+    name: 'Movie Toolchain',
+    icon: './assets/icon',
+  },
   rebuildConfig: {},
   makers: [
     new MakerSquirrel({}),
     new MakerZIP({}, ['darwin']),
     new MakerRpm({}),
     new MakerDeb({}),
+    {
+      name: '@electron-forge/maker-dmg',
+      config: {
+        format: 'ULFO',
+      },
+    },
   ],
   plugins: [
     new WebpackPlugin({
