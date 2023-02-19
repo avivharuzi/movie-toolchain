@@ -8,6 +8,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   selectDirectory: () => ipcRenderer.invoke('selectDirectory'),
   saveMoviePrepareFiles: (options: SaveMoviePrepareFilesOptions) =>
     ipcRenderer.invoke('saveMoviePrepareFiles', options),
+  getImageBlackBars: (
+    image: string,
+    options?: Partial<ImageBlackBarsOptions>
+  ) => ipcRenderer.invoke('getImageBlackBars', image, options),
   cropImageBase64: (options: CropImageBase64Options) =>
     ipcRenderer.invoke('cropImageBase64', options),
 });

@@ -21,6 +21,8 @@ const CropImage = () => {
   const [originalImage, setOriginalImage] =
     useState<OriginalImageProperties>(null);
   const [croppedImage, setCroppedImage] = useState<ImageProperties>(null);
+  const [originalImageBlackBars, setOriginalImageBlackBars] =
+    useState<ImageBlackBars>(null);
   const [cropImageFormValues, setCropImageFormValues] =
     useState<CropImageFormValues>(getCropImageFormDefaultValues());
 
@@ -46,11 +48,24 @@ const CropImage = () => {
 
     const { width, height } = await getImageResolution(src);
 
+    const imageBlackBars = await window.electronAPI.getImageBlackBars(
+      file.path
+    );
+
     setOriginalImage({
       src,
       width,
       height,
       path: file.path,
+    });
+
+    setOriginalImageBlackBars(imageBlackBars);
+
+    setCropImageFormValues({
+      top: imageBlackBars.top,
+      right: imageBlackBars.right,
+      bottom: imageBlackBars.bottom,
+      left: imageBlackBars.left,
     });
   };
 
@@ -99,7 +114,7 @@ const CropImage = () => {
           onChange={handleFileChange}
         />
       </div>
-      {originalImage && croppedImage ? (
+      {originalImage && originalImageBlackBars && croppedImage ? (
         <div className="d-flex gap-4">
           <div className="w-25">
             <p className="text-muted">Original image:</p>
@@ -111,12 +126,41 @@ const CropImage = () => {
             </div>
           </div>
           <div className="w-75">
-            <p className="text-muted">Cropped image:</p>
-            <p>
-              {croppedImage.width}x{croppedImage.height}
-            </p>
-            <div className="d-flex align-items-start gap-4">
-              <div className="d-flex flex-column gap-3">
+            <div className="d-flex gap-4">
+              <div className="w-75">
+                <p className="text-muted">Cropped image:</p>
+                <p>
+                  {croppedImage.width}x{croppedImage.height}
+                </p>
+              </div>
+              <div className="w-25">
+                <p className="text-muted">Black bars detection:</p>
+                <p>
+                  {originalImageBlackBars.croppedWidth}x
+                  {originalImageBlackBars.croppedHeight}
+                </p>
+                <p>
+                  top:{' '}
+                  <span className="text-primary">
+                    {originalImageBlackBars.top}
+                  </span>{' '}
+                  right:{' '}
+                  <span className="text-primary">
+                    {originalImageBlackBars.right}
+                  </span>{' '}
+                  bottom:{' '}
+                  <span className="text-primary">
+                    {originalImageBlackBars.bottom}
+                  </span>{' '}
+                  left:{' '}
+                  <span className="text-primary">
+                    {originalImageBlackBars.left}
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div className="d-flex align-items-start gap-4 w-100">
+              <div className="d-flex w-75 flex-column gap-3">
                 <ImageWithZoom
                   src={croppedImage.src}
                   initialPositionY={0}
@@ -134,10 +178,12 @@ const CropImage = () => {
                   alt="Cropped Image Center"
                 />
               </div>
-              <CropImageForm
-                values={cropImageFormValues}
-                onSubmit={(values) => onSubmitCropImageForm(values)}
-              />
+              <div className="w-25">
+                <CropImageForm
+                  values={cropImageFormValues}
+                  onSubmit={(values) => onSubmitCropImageForm(values)}
+                />
+              </div>
             </div>
           </div>
         </div>

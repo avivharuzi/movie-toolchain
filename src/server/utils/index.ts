@@ -8,8 +8,6 @@ export * from './generate-uuid';
 
 export * from './get-aspect-ratio';
 
-export * from './get-image-black-bars';
-
 export * from './get-image-buffer-from-url';
 
 export * from './get-text-file-content';

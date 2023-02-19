@@ -1,23 +1,6 @@
 import Jimp from 'jimp';
 
-import { getAspectRatio } from './get-aspect-ratio';
-
-export interface ImageBlackBarsOptions {
-  rgbThreshold: number;
-}
-
-export interface ImageBlackBars {
-  originalWidth: number;
-  originalHeight: number;
-  originalAspectRatio: string;
-  croppedWidth: number;
-  croppedHeight: number;
-  croppedAspectRatio: string;
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
-}
+import { getAspectRatio } from './utils';
 
 const getDefaultBlackBarsOptions = (): ImageBlackBarsOptions => {
   return {

@@ -3,6 +3,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import {
   cropImageBase64,
   downloadSubtitle,
+  getImageBlackBars,
   getMovieDetails,
   saveMoviePrepareFiles,
   selectDirectory,
@@ -47,6 +48,12 @@ const createWindow = async (): Promise<void> => {
       saveMoviePrepareFiles(options)
   );
 
+  ipcMain.handle(
+    'getImageBlackBars',
+    (event, image: string, options?: Partial<ImageBlackBarsOptions>) =>
+      getImageBlackBars(image, options)
+  );
+
   ipcMain.handle('cropImageBase64', (event, options: CropImageBase64Options) =>
     cropImageBase64(options)
   );
@@ -54,8 +61,10 @@ const createWindow = async (): Promise<void> => {
   // and load the index.html of the app.
   await mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (!app.isPackaged) {
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools();
+  }
 };
 
 // This method will be called when Electron has finished

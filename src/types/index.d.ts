@@ -7,6 +7,10 @@ interface ElectronAPI {
   saveMoviePrepareFiles: (
     options: SaveMoviePrepareFilesOptions
   ) => Promise<void>;
+  getImageBlackBars: (
+    image: string,
+    options?: Partial<ImageBlackBarsOptions>
+  ) => Promise<ImageBlackBars>;
   cropImageBase64: (options: CropImageBase64Options) => Promise<string>;
 }
 
@@ -68,6 +72,23 @@ declare global {
   interface ImageResolution {
     width: number;
     height: number;
+  }
+
+  interface ImageBlackBars {
+    originalWidth: number;
+    originalHeight: number;
+    originalAspectRatio: string;
+    croppedWidth: number;
+    croppedHeight: number;
+    croppedAspectRatio: string;
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+  }
+
+  interface ImageBlackBarsOptions {
+    rgbThreshold: number;
   }
 
   interface CropImageBase64Options {
