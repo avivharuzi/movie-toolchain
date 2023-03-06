@@ -19,7 +19,9 @@ const SelectSubtitle = ({
     <table className="select-subtitle table bg-white table-bordered table-hover">
       <thead>
         <tr>
-          <th scope="col">Name</th>
+          <th className="w-75" scope="col">
+            Name
+          </th>
           <th scope="col">Downloads</th>
           <th scope="col">Upload Date</th>
           <th scope="col">Download</th>
@@ -37,7 +39,10 @@ const SelectSubtitle = ({
                 onSelectSubtitle ? onSelectSubtitle(subtitle) : {}
               }
             >
-              <td>{subtitle.fileName}</td>
+              <td>
+                <p className="m-0">{subtitle.fileName}</p>
+                <span className="credit">{subtitle.credit}</span>
+              </td>
               <td>{subtitle.downloads}</td>
               <td>{dateFns.format(subtitle.uploadDate, 'dd/MM/yyyy')}</td>
               <td

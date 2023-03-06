@@ -36,6 +36,16 @@
   background-color: var(--bs-primary);
 }
 
+.select-subtitle tbody .credit {
+  display: block;
+  direction: rtl;
+  color: var(--bs-danger);
+}
+
+.select-subtitle tbody .is-active .credit {
+  color: var(--bs-light);
+}
+
 .select-subtitle tbody .is-active:hover td {
   color: var(--bs-light);
 }

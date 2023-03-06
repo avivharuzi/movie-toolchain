@@ -169,7 +169,9 @@ const extractKtuvitSubtitlesFromHTML = (html: string): MovieSubtitle[] => {
 
       const fileSize = row.cells[2].innerHTML;
       const fileType = row.cells[1].innerHTML;
-      const credit = row.cells[0].querySelector('div > small').innerHTML;
+      const credit = [...row.cells[0].querySelectorAll('div > small')]
+        .map((el) => el.textContent)
+        .join('');
 
       return {
         id,
