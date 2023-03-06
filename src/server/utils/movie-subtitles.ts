@@ -18,6 +18,8 @@ interface KtuvitSearch {
 
 interface KtuvitSearchFilm {
   ID: string;
+  EngName: string;
+  IMDB_Link: string;
   ImdbID: string;
 }
 
@@ -110,7 +112,10 @@ const getIMDBMovieTitleName = (imdbID: string): Promise<string | null> => {
   });
 };
 
-const getKtuvitID = async (imdbID: string, title: string): Promise<string | null> => {
+const getKtuvitID = async (
+  imdbID: string,
+  title: string
+): Promise<string | null> => {
   let movieTitle: string | null;
 
   if (imdbID in IMDB_NAMES_RECORD) {
@@ -127,11 +132,29 @@ const getKtuvitID = async (imdbID: string, title: string): Promise<string | null
 
   const searchResults = await ktuvitSearch(movieTitle);
 
-  const ktuvitId = searchResults.find(
-    (searchResult) => searchResult.ImdbID == imdbID
-  ).ID;
+  let searchResult = searchResults.find(
+    (searchResult) => searchResult.ImdbID === imdbID
+  );
 
-  return ktuvitId || null;
+  if (!searchResult) {
+    // Try to find imdb link.
+    searchResult = searchResults.find(
+      (searchResult) =>
+        searchResult.IMDB_Link.split('/')
+          .filter((text) => text.trim() !== '')
+          .at(-1) === imdbID
+    );
+  }
+
+  if (!searchResult) {
+    // Try to find by title.
+    searchResult = searchResults.find(
+      (searchResult) =>
+        searchResult.EngName.toLowerCase() === movieTitle.toLowerCase()
+    );
+  }
+
+  return searchResult?.ID || null;
 };
 
 const getKtuvitMovie = async (ktuvitID: string): Promise<string> => {
