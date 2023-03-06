@@ -107,7 +107,7 @@ export const getMovieDetails = async (
     images,
   } = await tmdbMovie(id);
 
-  const { ktuvitID, subtitles } = await getMovieSubtitles(imdbID);
+  const { ktuvitID, subtitles } = await getMovieSubtitles(imdbID, title);
 
   return {
     id,

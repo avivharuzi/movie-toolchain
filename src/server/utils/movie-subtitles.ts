@@ -110,7 +110,7 @@ const getIMDBMovieTitleName = (imdbID: string): Promise<string | null> => {
   });
 };
 
-const getKtuvitID = async (imdbID: string): Promise<string | null> => {
+const getKtuvitID = async (imdbID: string, title: string): Promise<string | null> => {
   let movieTitle: string | null;
 
   if (imdbID in IMDB_NAMES_RECORD) {
@@ -121,7 +121,7 @@ const getKtuvitID = async (imdbID: string): Promise<string | null> => {
     if (movieTitle) {
       IMDB_NAMES_RECORD[imdbID] = movieTitle;
     } else {
-      return null;
+      movieTitle = title;
     }
   }
 
@@ -186,7 +186,8 @@ const extractKtuvitSubtitlesFromHTML = (html: string): MovieSubtitle[] => {
 };
 
 export const getMovieSubtitles = async (
-  imdbID: string
+  imdbID: string,
+  title: string
 ): Promise<MovieSubtitlesResponse> => {
   const emptyMovieSubtitles: MovieSubtitlesResponse = {
     ktuvitID: '',
@@ -194,7 +195,7 @@ export const getMovieSubtitles = async (
   };
 
   try {
-    const ktuvitID = await getKtuvitID(imdbID);
+    const ktuvitID = await getKtuvitID(imdbID, title);
 
     if (!ktuvitID) {
       return emptyMovieSubtitles;
