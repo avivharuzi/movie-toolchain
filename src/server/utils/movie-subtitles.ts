@@ -130,7 +130,22 @@ const getKtuvitID = async (
     }
   }
 
-  const searchResults = await ktuvitSearch(movieTitle);
+  let searchResults: KtuvitSearchFilm[] = [];
+
+  try {
+    searchResults = await ktuvitSearch(movieTitle);
+  } catch (error) {
+    // Do nothing if there is an error.
+  }
+
+  // Check if we can search for alternative title if there are no results.
+  if (searchResults.length === 0 && movieTitle !== title) {
+    try {
+      searchResults = await ktuvitSearch(title);
+    } catch (error) {
+      // Again we will not do anything here.
+    }
+  }
 
   let searchResult = searchResults.find(
     (searchResult) => searchResult.ImdbID === imdbID
@@ -154,7 +169,11 @@ const getKtuvitID = async (
     );
   }
 
-  return searchResult?.ID || null;
+  return (
+    searchResult?.ID ||
+    (searchResults.length > 0 && searchResults[0].ID) ||
+    null
+  );
 };
 
 const getKtuvitMovie = async (ktuvitID: string): Promise<string> => {
@@ -181,17 +200,17 @@ const extractKtuvitSubtitlesFromHTML = (html: string): MovieSubtitle[] => {
 
       const fileName = row.cells[0]
         .querySelector('div')
-        .innerHTML.split('<br>')[0]
-        .trim();
+        .textContent.trim()
+        .split('\n')[0];
 
-      const downloads = parseInt(row.cells[4].innerHTML);
+      const downloads = parseInt(row.cells[4].textContent);
 
       const uploadDate = new Date(
-        row.cells[3].innerHTML.split('/').reverse().join('-')
+        row.cells[3].textContent.split('/').reverse().join('-')
       );
 
-      const fileSize = row.cells[2].innerHTML;
-      const fileType = row.cells[1].innerHTML;
+      const fileSize = row.cells[2].textContent;
+      const fileType = row.cells[1].textContent;
       const credit = [...row.cells[0].querySelectorAll('div > small')]
         .map((el) => el.textContent)
         .join('');
