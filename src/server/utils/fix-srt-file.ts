@@ -21,6 +21,8 @@ const DASH_REGEX = /^-+|-+$/gm;
 
 const SPACE_BETWEEN_REGEX = /\s+/g;
 
+const UNDEFINED_CHAR_REGEX = /�/g;
+
 const getEmptySubtitle = (): Subtitle => {
   return {
     index: null,
@@ -43,6 +45,8 @@ const fixTextLine = (line: string, removeTextFormatting = false) => {
   modifiedLine = modifiedLine.replace(DASH_REGEX, '');
   modifiedLine = modifiedLine.trim();
   modifiedLine = modifiedLine.replace(SPACE_BETWEEN_REGEX, ' ');
+  modifiedLine = modifiedLine.trim();
+  modifiedLine = modifiedLine.replace(UNDEFINED_CHAR_REGEX, '');
   modifiedLine = modifiedLine.trim();
 
   return modifiedLine;
