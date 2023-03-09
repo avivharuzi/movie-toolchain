@@ -24,6 +24,7 @@ interface TMDBMovie {
 }
 
 interface TMDBMovieImage {
+  iso_639_1: string | null;
   width: number;
   height: number;
   file_path: string;
@@ -84,7 +85,12 @@ const fromTMDBImageToMovieImage = ({
 };
 
 const convertToMovieImages = (images: TMDBMovieImage[]): MovieImage[] => {
-  return images.map((image) => fromTMDBImageToMovieImage(image));
+  return images
+    .filter(
+      (image) =>
+        image.iso_639_1 === null || image.iso_639_1?.toLowerCase() === 'en'
+    )
+    .map((image) => fromTMDBImageToMovieImage(image));
 };
 
 export const getMovieDetails = async (
