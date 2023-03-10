@@ -1,4 +1,5 @@
 import * as dateFns from 'date-fns';
+import distinctColors from 'distinct-colors';
 
 import Icon from './Icon';
 
@@ -9,12 +10,32 @@ interface SelectSubtitleProps {
   onDownloadSubtitle?: (subtitle: MovieSubtitle) => void;
 }
 
+const createUniqueSubtitleColors = (
+  subtitles: MovieSubtitle[]
+): Record<string, string> => {
+  const uniqueSubtitles = new Set(
+    subtitles.map((subtitle) => subtitle.fileSize)
+  );
+
+  const colors = distinctColors({
+    count: uniqueSubtitles.size,
+  });
+
+  return [...uniqueSubtitles].reduce((curr, sub, index) => {
+    curr[sub] = colors[index]?.hex() || 'inherit';
+
+    return curr;
+  }, {} as Record<string, string>);
+};
+
 const SelectSubtitle = ({
   subtitles,
   selectedSubtitle,
   onSelectSubtitle,
   onDownloadSubtitle,
 }: SelectSubtitleProps) => {
+  const uniqueSubtitleColors = createUniqueSubtitleColors(subtitles);
+
   return (
     <table className="select-subtitle table bg-white table-bordered table-hover">
       <thead>
@@ -24,6 +45,7 @@ const SelectSubtitle = ({
           </th>
           <th scope="col">Downloads</th>
           <th scope="col">Upload Date</th>
+          <th scope="col">Size</th>
           <th scope="col">Download</th>
         </tr>
       </thead>
@@ -45,6 +67,14 @@ const SelectSubtitle = ({
               </td>
               <td>{subtitle.downloads}</td>
               <td>{dateFns.format(subtitle.uploadDate, 'dd/MM/yyyy')}</td>
+              <td
+                style={{
+                  color: '#fff',
+                  backgroundColor: uniqueSubtitleColors[subtitle.fileSize],
+                }}
+              >
+                {subtitle.fileSize}
+              </td>
               <td
                 onClick={() =>
                   onDownloadSubtitle ? onDownloadSubtitle(subtitle) : {}

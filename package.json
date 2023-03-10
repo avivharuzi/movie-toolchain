@@ -20,6 +20,7 @@
     "canvas": "^2.11.0",
     "chardet": "^1.5.1",
     "date-fns": "^2.29.3",
+    "distinct-colors": "^3.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "file-type": "^18.2.1",
     "iconv-lite": "^0.6.3",
