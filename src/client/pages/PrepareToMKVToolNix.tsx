@@ -6,6 +6,7 @@ import Loader from '../components/Loader';
 import MovieDetailsStat from '../components/MovieDetailsStat';
 import SelectImage from '../components/SelectImage';
 import SelectSubtitle from '../components/SelectSubtitle';
+import { useToast } from '../components/Toast';
 
 interface PrepareToMKVToolNixForm {
   selectedPoster: MovieImage | null;
@@ -28,6 +29,7 @@ const PrepareToMKVToolNix = () => {
   const [formValue, setFormValue] = useState<PrepareToMKVToolNixForm>(
     getDefaultFormValue()
   );
+  const { showToast } = useToast();
 
   const handleSearch = async (): Promise<void> => {
     if (!searchValue) {
@@ -38,11 +40,17 @@ const PrepareToMKVToolNix = () => {
 
     setFormValue(getDefaultFormValue());
 
-    const movieDetails = await window.electronAPI.getMovieDetails(searchValue);
+    try {
+      const movieDetails = await window.electronAPI.getMovieDetails(
+        searchValue
+      );
 
-    setMovie(movieDetails);
-
-    setIsLoading(false);
+      setMovie(movieDetails);
+    } catch (error) {
+      showToast(`Failed to search movie: ${JSON.stringify(error)}`, 'error');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleFormValueChange = (
@@ -57,22 +65,29 @@ const PrepareToMKVToolNix = () => {
   const handleDownloadSubtitle = async (
     subtitle: MovieSubtitle
   ): Promise<void> => {
-    const directory = await window.electronAPI.selectDirectory();
+    try {
+      const directory = await window.electronAPI.selectDirectory();
 
-    if (!directory) {
-      return;
+      if (!directory) {
+        return;
+      }
+
+      setIsLoading(true);
+
+      await window.electronAPI.downloadSubtitle({
+        ktuvitID: movie.ktuvitID,
+        subtitleID: subtitle.id,
+        outputPath: directory,
+        fileName: subtitle.fileName,
+      });
+    } catch (error) {
+      showToast(
+        `Failed to download subtitle: ${JSON.stringify(error)}`,
+        'error'
+      );
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(true);
-
-    await window.electronAPI.downloadSubtitle({
-      ktuvitID: movie.ktuvitID,
-      subtitleID: subtitle.id,
-      outputPath: directory,
-      fileName: subtitle.fileName,
-    });
-
-    setIsLoading(false);
   };
 
   const handleBrowse = async (): Promise<void> => {
@@ -80,25 +95,32 @@ const PrepareToMKVToolNix = () => {
       return;
     }
 
-    const directory = await window.electronAPI.selectDirectory();
+    try {
+      const directory = await window.electronAPI.selectDirectory();
 
-    if (!directory) {
-      return;
+      if (!directory) {
+        return;
+      }
+
+      setIsLoading(true);
+
+      const { selectedPoster, selectedBackdrop, selectedSubtitle } = formValue;
+
+      await window.electronAPI.saveMoviePrepareFiles({
+        ktuvitID: movie.ktuvitID,
+        subtitleID: selectedSubtitle.id,
+        posterImage: selectedPoster.src.original,
+        backdropImage: selectedBackdrop.src.original,
+        outputPath: directory,
+      });
+    } catch (error) {
+      showToast(
+        `Failed to save movie prepare files: ${JSON.stringify(error)}`,
+        'error'
+      );
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(true);
-
-    const { selectedPoster, selectedBackdrop, selectedSubtitle } = formValue;
-
-    await window.electronAPI.saveMoviePrepareFiles({
-      ktuvitID: movie.ktuvitID,
-      subtitleID: selectedSubtitle.id,
-      posterImage: selectedPoster.src.original,
-      backdropImage: selectedBackdrop.src.original,
-      outputPath: directory,
-    });
-
-    setIsLoading(false);
   };
 
   const movieTitle = movie
