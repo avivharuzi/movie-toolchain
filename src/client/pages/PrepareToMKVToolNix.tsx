@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 
 import IconWithText from '../components/IconWithText';
 import Loader from '../components/Loader';
@@ -30,6 +30,12 @@ const PrepareToMKVToolNix = () => {
     getDefaultFormValue()
   );
   const { showToast } = useToast();
+
+  const handleInputKeydown = async (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      await handleSearch();
+    }
+  };
 
   const handleSearch = async (): Promise<void> => {
     if (!searchValue) {
@@ -152,6 +158,7 @@ const PrepareToMKVToolNix = () => {
           onInput={(event) =>
             setSearchValue((event.target as HTMLInputElement).value)
           }
+          onKeyDown={handleInputKeydown}
           className="form-control"
           placeholder="IMDB ID..."
         />
