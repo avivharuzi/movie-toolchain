@@ -1,11 +1,11 @@
 import { format } from 'date-fns';
 import { KeyboardEvent, useState } from 'react';
 
-import IconWithText from '../components/IconWithText';
-import Loader from '../components/Loader';
-import MovieDetailsStat from '../components/MovieDetailsStat';
-import SelectImage from '../components/SelectImage';
-import SelectSubtitle from '../components/SelectSubtitle';
+import { IconWithText } from '../components/IconWithText';
+import { Loader } from '../components/Loader';
+import { MovieDetailsStat } from '../components/MovieDetailsStat';
+import { SelectImage } from '../components/SelectImage';
+import { SelectSubtitle } from '../components/SelectSubtitle';
 import { useToast } from '../components/Toast';
 
 interface PrepareToMKVToolNixForm {
@@ -22,7 +22,7 @@ const getDefaultFormValue = (): PrepareToMKVToolNixForm => {
   };
 };
 
-const PrepareToMKVToolNix = () => {
+export const PrepareToMKVToolNix = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [movie, setMovie] = useState<MovieDetails | null>(null);
   const [searchValue, setSearchValue] = useState('');
@@ -201,6 +201,7 @@ const PrepareToMKVToolNix = () => {
           <div>
             <p className="text-muted">Select subtitle:</p>
             <SelectSubtitle
+              ktuvitId={movie.ktuvitID}
               subtitles={movie.subtitles}
               selectedSubtitle={formValue.selectedSubtitle}
               onSelectSubtitle={(subtitle) =>
@@ -225,5 +226,3 @@ const PrepareToMKVToolNix = () => {
     </div>
   );
 };
-
-export default PrepareToMKVToolNix;

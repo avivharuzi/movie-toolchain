@@ -1,8 +1,8 @@
-import Nav from './components/Nav';
-import CropImage from './pages/CropImage';
-import PrepareToMKVToolNix from './pages/PrepareToMKVToolNix';
+import * as Nav from './components/Nav';
+import { CropImage } from './pages/CropImage';
+import { PrepareToMKVToolNix } from './pages/PrepareToMKVToolNix';
 
-const App = () => {
+export const App = () => {
   return (
     <div className="main p-3 bg-light">
       <div className="d-flex flex-column gap-3">
@@ -24,5 +24,3 @@ const App = () => {
     </div>
   );
 };
-
-export default App;

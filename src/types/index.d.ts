@@ -2,6 +2,7 @@ export {};
 
 interface ElectronAPI {
   getMovieDetails: (imdbID: string) => Promise<MovieDetails | null>;
+  previewSubtitle: (options: PreviewSubtitleOptions) => Promise<string>;
   downloadSubtitle: (options: DownloadSubtitleOptions) => Promise<void>;
   selectDirectory: () => Promise<string | null>;
   saveMoviePrepareFiles: (
@@ -52,6 +53,11 @@ declare global {
     fileSize: string;
     fileType: string;
     credit: string;
+  }
+
+  interface PreviewSubtitleOptions {
+    ktuvitID: string;
+    subtitleID: string;
   }
 
   interface DownloadSubtitleOptions {

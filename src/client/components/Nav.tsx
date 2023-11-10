@@ -9,7 +9,7 @@ export interface NavItemProps extends PropsWithChildren {
   isActive?: boolean;
 }
 
-const TabItem = ({ id, isActive, children }: NavItemProps) => {
+export const TabItem = ({ id, isActive, children }: NavItemProps) => {
   return (
     <li className="nav-item" role="presentation">
       <button
@@ -28,7 +28,7 @@ const TabItem = ({ id, isActive, children }: NavItemProps) => {
   );
 };
 
-const Tabs = ({ id, children }: NavTabsProps) => {
+export const Tabs = ({ id, children }: NavTabsProps) => {
   return (
     <ul className="nav nav-tabs" id={id} role="tablist">
       {children}
@@ -36,7 +36,7 @@ const Tabs = ({ id, children }: NavTabsProps) => {
   );
 };
 
-const TabContentItem = ({ id, children, isActive }: NavItemProps) => {
+export const TabContentItem = ({ id, children, isActive }: NavItemProps) => {
   return (
     <div
       className={`tab-pane fade show ${isActive ? 'active' : ''}`}
@@ -49,17 +49,10 @@ const TabContentItem = ({ id, children, isActive }: NavItemProps) => {
   );
 };
 
-const TabsContent = ({ id, children }: NavTabsProps) => {
+export const TabsContent = ({ id, children }: NavTabsProps) => {
   return (
     <div className="tab-content" id={`${id}Content`}>
       {children}
     </div>
   );
-};
-
-export default {
-  Tabs,
-  TabItem,
-  TabsContent,
-  TabContentItem,
 };

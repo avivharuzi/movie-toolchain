@@ -2,13 +2,13 @@
 // @ts-ignore
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-import Icon from './Icon';
+import { Icon } from './Icon';
 
 export interface CopyTextProps {
   text: string;
 }
 
-const CopyText = ({ text }: CopyTextProps) => {
+export const CopyText = ({ text }: CopyTextProps) => {
   return (
     <CopyToClipboard text={text}>
       <button className="btn btn-sm btn-warning">
@@ -17,5 +17,3 @@ const CopyText = ({ text }: CopyTextProps) => {
     </CopyToClipboard>
   );
 };
-
-export default CopyText;

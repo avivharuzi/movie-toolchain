@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 
-import Icon from './Icon';
+import { Icon } from './Icon';
 
 export interface ImageWithZoomProps {
   src: string;
@@ -11,7 +11,7 @@ export interface ImageWithZoomProps {
   initialPositionY?: number;
 }
 
-const ImageWithZoom = ({
+export const ImageWithZoom = ({
   src,
   alt,
   initialScale,
@@ -57,5 +57,3 @@ const ImageWithZoom = ({
     </div>
   );
 };
-
-export default ImageWithZoom;

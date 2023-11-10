@@ -2,7 +2,7 @@ export interface LoaderProps {
   isLoading: boolean;
 }
 
-const Loader = ({ isLoading }: LoaderProps) => {
+export const Loader = ({ isLoading }: LoaderProps) => {
   if (!isLoading) {
     return;
   }
@@ -15,5 +15,3 @@ const Loader = ({ isLoading }: LoaderProps) => {
     </div>
   );
 };
-
-export default Loader;

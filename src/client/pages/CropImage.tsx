@@ -1,10 +1,11 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import CropImageForm, {
+import {
+  CropImageForm,
   CropImageFormValues,
   getCropImageFormDefaultValues,
 } from '../components/CropImageForm';
-import ImageWithZoom from '../components/ImageWithZoom';
+import { ImageWithZoom } from '../components/ImageWithZoom';
 import { fromFileToDataURL, getImageResolution } from '../utils';
 
 interface ImageProperties {
@@ -17,7 +18,7 @@ interface OriginalImageProperties extends ImageProperties {
   path: string;
 }
 
-const CropImage = () => {
+export const CropImage = () => {
   const [originalImage, setOriginalImage] =
     useState<OriginalImageProperties>(null);
   const [croppedImage, setCroppedImage] = useState<ImageProperties>(null);
@@ -193,5 +194,3 @@ const CropImage = () => {
     </div>
   );
 };
-
-export default CropImage;

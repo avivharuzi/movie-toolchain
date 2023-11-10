@@ -3,6 +3,8 @@ import { contextBridge, ipcRenderer } from 'electron';
 contextBridge.exposeInMainWorld('electronAPI', {
   getMovieDetails: (imdbID: string) =>
     ipcRenderer.invoke('getMovieDetails', imdbID),
+  previewSubtitle: (options: PreviewSubtitleOptions) =>
+    ipcRenderer.invoke('previewSubtitle', options),
   downloadSubtitle: (options: DownloadSubtitleOptions) =>
     ipcRenderer.invoke('downloadSubtitle', options),
   selectDirectory: () => ipcRenderer.invoke('selectDirectory'),

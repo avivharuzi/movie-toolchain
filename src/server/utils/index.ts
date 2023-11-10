@@ -4,6 +4,8 @@ export * from './crop-image';
 
 export * from './fix-srt-file';
 
+export * from './fix-text-encoding';
+
 export * from './generate-uuid';
 
 export * from './get-aspect-ratio';

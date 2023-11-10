@@ -55,17 +55,24 @@ const fixTextLine = (line: string, removeTextFormatting = false) => {
 export const fixSRTFile = async (
   filePath: string,
   targetFilePath: string,
-  { removeTextFormatting }: FixSRTFileOptions
+  options: FixSRTFileOptions
 ): Promise<void> => {
   const textFileContent = await getTextFileContent(filePath);
 
-  const subtitles = getSubtitlesFromText(textFileContent, removeTextFormatting);
-
-  const text = getTextFromSubtitles(subtitles);
+  const text = fixSRTContent(textFileContent, options);
 
   await fs.promises.writeFile(targetFilePath, text, {
     encoding: 'utf-8',
   });
+};
+
+export const fixSRTContent = (
+  content: string,
+  { removeTextFormatting }: FixSRTFileOptions
+): string => {
+  const subtitles = getSubtitlesFromText(content, removeTextFormatting);
+
+  return getTextFromSubtitles(subtitles);
 };
 
 const getSubtitlesFromText = (

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { downloadMovieSubtitle } from './utils';
+import { downloadMovieSubtitle, fixSRTContent, fixTextEncoding } from './utils';
 
 export const downloadSubtitle = async ({
   ktuvitID,
@@ -16,5 +16,9 @@ export const downloadSubtitle = async ({
 
   const subFilePath = path.join(outputPath, `${fileName}.srt`);
 
-  await fs.promises.writeFile(subFilePath, subtitleBuffer);
+  const fileContent = fixSRTContent(fixTextEncoding(subtitleBuffer), {
+    removeTextFormatting: true,
+  });
+
+  await fs.promises.writeFile(subFilePath, fileContent);
 };

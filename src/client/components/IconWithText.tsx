@@ -1,12 +1,12 @@
 import { PropsWithChildren } from 'react';
 
-import Icon from './Icon';
+import { Icon } from './Icon';
 
 export interface IconWithTextProps extends PropsWithChildren {
   name: string;
 }
 
-const IconWithText = ({ name, children }: IconWithTextProps) => {
+export const IconWithText = ({ name, children }: IconWithTextProps) => {
   return (
     <div className="d-flex align-items-center gap-2">
       <Icon name={name} />
@@ -14,5 +14,3 @@ const IconWithText = ({ name, children }: IconWithTextProps) => {
     </div>
   );
 };
-
-export default IconWithText;

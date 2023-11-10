@@ -4,12 +4,17 @@ import { cropImageBase64 } from './crop-image-base-64';
 import { downloadSubtitle } from './download-subtitle';
 import { getImageBlackBars } from './get-image-black-bars';
 import { getMovieDetails } from './get-movie-details';
+import { previewSubtitle } from './preview-subtitle';
 import { saveMoviePrepareFiles } from './save-movie-prepare-files';
 import { selectDirectory } from './select-directory';
 
 export const createIpcMainEvents = (): void => {
   ipcMain.handle('getMovieDetails', (_event, imdbID: string) =>
     getMovieDetails(imdbID)
+  );
+
+  ipcMain.handle('previewSubtitle', (_event, options: PreviewSubtitleOptions) =>
+    previewSubtitle(options)
   );
 
   ipcMain.handle(

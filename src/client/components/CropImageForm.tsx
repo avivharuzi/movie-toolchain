@@ -21,7 +21,7 @@ export const getCropImageFormDefaultValues = (): CropImageFormValues => {
   };
 };
 
-const CropImageForm = ({ values, onSubmit }: CropImageFormProps) => {
+export const CropImageForm = ({ values, onSubmit }: CropImageFormProps) => {
   const { register, handleSubmit } = useForm<CropImageFormValues>({
     values: values || getCropImageFormDefaultValues(),
   });
@@ -62,5 +62,3 @@ const CropImageForm = ({ values, onSubmit }: CropImageFormProps) => {
     </form>
   );
 };
-
-export default CropImageForm;

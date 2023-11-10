@@ -4,7 +4,7 @@ export interface SelectImageProps {
   onSelectImage?: (image: MovieImage) => void;
 }
 
-const SelectImage = ({
+export const SelectImage = ({
   images,
   selectedImage,
   onSelectImage,
@@ -37,5 +37,3 @@ const SelectImage = ({
     </div>
   );
 };
-
-export default SelectImage;

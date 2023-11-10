@@ -1,10 +1,10 @@
-import CopyText from './CopyText';
+import { CopyText } from './CopyText';
 
 export interface MovieDetailsStatProps {
   text: string;
 }
 
-const MovieDetailsStat = ({ text }: MovieDetailsStatProps) => {
+export const MovieDetailsStat = ({ text }: MovieDetailsStatProps) => {
   return (
     <h5 className="d-flex align-items-center gap-3">
       <span>{text}</span>
@@ -12,5 +12,3 @@ const MovieDetailsStat = ({ text }: MovieDetailsStatProps) => {
     </h5>
   );
 };
-
-export default MovieDetailsStat;

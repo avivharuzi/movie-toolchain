@@ -1,9 +1,9 @@
-import * as dateFns from 'date-fns';
 import distinctColors from 'distinct-colors';
 
-import Icon from './Icon';
+import { SubtitleRow } from './SubtitleRow';
 
 interface SelectSubtitleProps {
+  ktuvitId: string;
   subtitles: MovieSubtitle[];
   selectedSubtitle: MovieSubtitle | null;
   onSelectSubtitle?: (subtitle: MovieSubtitle) => void;
@@ -28,7 +28,8 @@ const createUniqueSubtitleColors = (
   }, {} as Record<string, string>);
 };
 
-const SelectSubtitle = ({
+export const SelectSubtitle = ({
+  ktuvitId,
   subtitles,
   selectedSubtitle,
   onSelectSubtitle,
@@ -46,48 +47,23 @@ const SelectSubtitle = ({
           <th scope="col">Downloads</th>
           <th scope="col">Upload Date</th>
           <th scope="col">Size</th>
+          <th scope="col">Preview</th>
           <th scope="col">Download</th>
         </tr>
       </thead>
       <tbody>
-        {subtitles.map((subtitle) => {
-          return (
-            <tr
-              key={subtitle.id}
-              className={
-                subtitle.id === selectedSubtitle?.id ? 'is-active' : ''
-              }
-              onClick={() =>
-                onSelectSubtitle ? onSelectSubtitle(subtitle) : {}
-              }
-            >
-              <td>
-                <p className="m-0">{subtitle.fileName}</p>
-                <span className="credit">{subtitle.credit}</span>
-              </td>
-              <td>{subtitle.downloads}</td>
-              <td>{dateFns.format(subtitle.uploadDate, 'dd/MM/yyyy')}</td>
-              <td
-                style={{
-                  color: '#fff',
-                  backgroundColor: uniqueSubtitleColors[subtitle.fileSize],
-                }}
-              >
-                {subtitle.fileSize}
-              </td>
-              <td
-                onClick={() =>
-                  onDownloadSubtitle ? onDownloadSubtitle(subtitle) : {}
-                }
-              >
-                <Icon name="download" />
-              </td>
-            </tr>
-          );
-        })}
+        {subtitles.map((subtitle) => (
+          <SubtitleRow
+            key={subtitle.id}
+            ktuvitId={ktuvitId}
+            subtitle={subtitle}
+            isSelected={subtitle.id === selectedSubtitle?.id}
+            uniqueColor={uniqueSubtitleColors[subtitle.fileSize]}
+            onSelectSubtitle={onSelectSubtitle}
+            onDownloadSubtitle={onDownloadSubtitle}
+          />
+        ))}
       </tbody>
     </table>
   );
 };
-
-export default SelectSubtitle;
