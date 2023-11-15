@@ -53,7 +53,7 @@ export const PrepareToMKVToolNix = () => {
 
       setMovie(movieDetails);
     } catch (error) {
-      showToast(`Failed to search movie: ${JSON.stringify(error)}`, 'error');
+      showToast(`Failed to search movie: ${error.toString()}`, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -87,10 +87,7 @@ export const PrepareToMKVToolNix = () => {
         fileName: subtitle.fileName,
       });
     } catch (error) {
-      showToast(
-        `Failed to download subtitle: ${JSON.stringify(error)}`,
-        'error'
-      );
+      showToast(`Failed to download subtitle: ${error.toString()}`, 'error');
     } finally {
       setIsLoading(false);
     }
@@ -121,7 +118,7 @@ export const PrepareToMKVToolNix = () => {
       });
     } catch (error) {
       showToast(
-        `Failed to save movie prepare files: ${JSON.stringify(error)}`,
+        `Failed to save movie prepare files: ${error.toString()}`,
         'error'
       );
     } finally {

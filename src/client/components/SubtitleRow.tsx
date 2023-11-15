@@ -29,6 +29,10 @@ export const SubtitleRow = ({
   const { showToast } = useToast();
 
   const handlePreviewSubtitleClick = async () => {
+    if (subtitlePreview) {
+      return;
+    }
+
     setSubtitlePreviewIsLoading(true);
 
     try {
@@ -40,7 +44,7 @@ export const SubtitleRow = ({
       setSubtitlePreview(content);
     } catch (error) {
       showToast(
-        `Failed to get subtitle preview, error: ${JSON.stringify(error)}`,
+        `Failed to get subtitle preview, error: ${error.toString()}`,
         'error'
       );
     } finally {
